@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Information System Diagrams</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .diagram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .diagram-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .diagram-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .diagram-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            text-align: center;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .diagram-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .diagram-image:hover {
+            transform: scale(1.02);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            margin: 2% auto;
+            display: block;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #3498db;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .diagram-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Health Information System</h1>
+            <p class="subtitle">Comprehensive System Architecture & Implementation Documentation</p>
+        </header>
+
+        <div class="diagram-grid">
+            <div class="diagram-card">
+                <h2 class="diagram-title">User Interface Mockup Structure</h2>
+                <img src="./Assests/User Interface Mockup Structure.png" alt="User Interface Design showing main dashboard layout with navigation, user profile, quick actions, and content areas" class="diagram-image" onclick="openModal(this)">
+            </div>
+
+            <div class="diagram-card">
+                <h2 class="diagram-title">Implementation Timeline</h2>
+                <img src="./Assests/Implementation Timeline.png" alt="Project timeline showing 4 phases from planning through deployment over 6 months" class="diagram-image" onclick="openModal(this)">
+            </div>
+
+            <div class="diagram-card">
+                <h2 class="diagram-title">Security Architecture</h2>
+                <img src="./Assests/Security Implementation Model.png" alt="Multi-layered security architecture with user, data, application, and network security components" class="diagram-image" onclick="openModal(this)">
+            </div>
+
+            <div class="diagram-card">
+                <h2 class="diagram-title">System Workflow</h2>
+                <img src="./Assests/System Integration Flow.png" alt="Sequence diagram showing patient registration workflow between different system components" class="diagram-image" onclick="openModal(this)">
+            </div>
+
+            <div class="diagram-card">
+                <h2 class="diagram-title">Database Schema</h2>
+                <img src="./Assests/Database Entity Relationship Diagram.png" alt="Entity relationship diagram showing patient, user, visit, lab test, and prescription tables with relationships" class="diagram-image" onclick="openModal(this)">
+            </div>
+
+            <div class="diagram-card">
+                <h2 class="diagram-title">User Role Access Matrix</h2>
+                <img src="./Assests/Role-Based Access Control.png" alt="Role-based access control showing permissions for receptionist, lab staff, doctor, pharmacy staff, and admin roles" class="diagram-image" onclick="openModal(this)">
+            </div>
+
+            <div class="diagram-card">
+                <h2 class="diagram-title">Patient Registration Process</h2>
+                <img src="./Assests/Patient Registration Workflow.png" alt="Flowchart detailing the patient registration process from arrival to department assignment" class="diagram-image" onclick="openModal(this)">
+            </div>
+
+            <div class="diagram-card full-width">
+                <h2 class="diagram-title">System Architecture Overview</h2>
+                <img src="./Assests/System Architecture Diagram.png" alt="Complete system architecture showing client layer, web application layer, database layer, and security components" class="diagram-image" onclick="openModal(this)">
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Health Information System Documentation. All diagrams represent the comprehensive system design and implementation plan.</p>
+        </footer>
+    </div>
+
+    <!-- Modal for image viewing -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        function openModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside the image
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Add smooth loading animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.diagram-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
