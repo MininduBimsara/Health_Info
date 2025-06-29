@@ -72,6 +72,7 @@
             justify-content: center;
             gap: 3rem;
             margin-top: 2rem;
+            flex-wrap: wrap;
         }
 
         .stat-item {
@@ -93,6 +94,8 @@
 
         .main-content {
             padding: 4rem 0;
+            position: relative;
+            z-index: 10;
         }
 
         .section-header {
@@ -119,6 +122,8 @@
             grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
+            position: relative;
+            z-index: 20;
         }
 
         .diagram-card {
@@ -130,18 +135,21 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
             position: relative;
+            z-index: 30;
         }
 
         .diagram-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             border-color: #3b82f6;
+            z-index: 40;
         }
 
         .card-header {
             padding: 1.5rem;
             border-bottom: 1px solid #e2e8f0;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            position: relative;
         }
 
         .card-title {
@@ -179,6 +187,7 @@
             cursor: pointer;
             transition: transform 0.3s ease;
             border-radius: 0 0 16px 16px;
+            display: block;
         }
 
         .diagram-image:hover {
@@ -193,24 +202,34 @@
             height: 400px;
         }
 
+        /* Modal Styles - Fixed positioning */
         .modal {
             display: none;
             position: fixed;
-            z-index: 2000;
+            z-index: 9999;
             left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
         }
 
         .modal-content {
-            margin: 2% auto;
-            display: block;
-            width: 90%;
-            max-width: 1200px;
-            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90vw;
+            max-height: 85vh;
+            width: auto;
+            height: auto;
             object-fit: contain;
             border-radius: 12px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -229,13 +248,18 @@
             font-weight: 600;
             font-size: 0.875rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 2001;
+            z-index: 10000;
+            max-width: 80vw;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .close {
-            position: absolute;
+            position: fixed;
             top: 20px;
-            right: 30px;
+            right: 20px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -250,12 +274,14 @@
             font-weight: 300;
             cursor: pointer;
             transition: all 0.3s ease;
+            z-index: 10001;
         }
 
         .close:hover {
             background: #ef4444;
             color: white;
             border-color: #ef4444;
+            transform: scale(1.1);
         }
 
         .footer-section {
@@ -263,6 +289,8 @@
             color: white;
             padding: 3rem 0;
             margin-top: 4rem;
+            position: relative;
+            z-index: 5;
         }
 
         .footer-content {
@@ -337,6 +365,24 @@
             .container {
                 padding: 0 1rem;
             }
+
+            .modal-content {
+                max-width: 95vw;
+                max-height: 80vh;
+            }
+
+            .modal-header {
+                max-width: 70vw;
+                font-size: 0.75rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .close {
+                width: 40px;
+                height: 40px;
+                right: 15px;
+                top: 15px;
+            }
         }
 
         .loading-skeleton {
@@ -348,6 +394,11 @@
         @keyframes loading {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
+        }
+
+        /* Ensure body doesn't scroll when modal is open */
+        body.modal-open {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -511,7 +562,7 @@
         </div>
     </div>
 
-    <!-- Enhanced Modal -->
+    <!-- Enhanced Modal with Fixed Positioning -->
     <div id="imageModal" class="modal">
         <div class="modal-header" id="modalTitle">System Diagram</div>
         <span class="close" onclick="closeModal()">&times;</span>
@@ -524,6 +575,9 @@
             const modalImg = document.getElementById('modalImage');
             const modalTitle = document.getElementById('modalTitle');
             
+            // Prevent body scroll
+            document.body.classList.add('modal-open');
+            
             modal.style.display = 'block';
             modalTitle.textContent = title;
             modalImg.src = img.src;
@@ -531,13 +585,17 @@
             
             // Add fade-in animation
             setTimeout(() => {
-                modal.style.opacity = '1';
+                modal.classList.add('show');
             }, 10);
         }
 
         function closeModal() {
             const modal = document.getElementById('imageModal');
-            modal.style.opacity = '0';
+            
+            // Re-enable body scroll
+            document.body.classList.remove('modal-open');
+            
+            modal.classList.remove('show');
             setTimeout(() => {
                 modal.style.display = 'none';
             }, 300);
@@ -546,7 +604,7 @@
         // Enhanced modal interactions
         window.onclick = function(event) {
             const modal = document.getElementById('imageModal');
-            if (event.target == modal) {
+            if (event.target === modal) {
                 closeModal();
             }
         }
@@ -573,7 +631,7 @@
                 }, index * 150);
             });
 
-            // Remove loading skeleton after a short delay (now that we have real images)
+            // Remove loading skeleton after a short delay
             setTimeout(() => {
                 document.querySelectorAll('.loading-skeleton').forEach(el => {
                     el.classList.remove('loading-skeleton');
